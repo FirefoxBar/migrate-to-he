@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				newItem.code += "for (let i = 1; i < r.length; i++) {\n";
 				newItem.code += "\tresult = result.replace(new RegExp('\\\\$' + i, 'g'), " + functionName + "(r[i]));\n";
 				newItem.code += "}\n";
-				newItem.code += 'return result';
+				newItem.code += 'return result;';
 			}
 			r.push(newItem);
 		}
