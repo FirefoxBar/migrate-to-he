@@ -11,6 +11,13 @@ if (!window.location.search.includes('force-language')) {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
+	// stat
+	if (navigator.doNotTrack != 1) {
+		var hm = document.createElement("script");
+		hm.src = "https://hm.baidu.com/hm.js?eddab75c23e1853a476011bb95a585c9";
+		document.head.appendChild(hm);
+	}
+
 	var fileElm = document.getElementById('file');
 	// Load a db from a file
 	fileElm.onchange = function() {
