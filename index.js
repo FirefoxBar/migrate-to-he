@@ -28,6 +28,16 @@ document.addEventListener("DOMContentLoaded", function() {
 		}
 		r.readAsText(f);
 	}
+	
+	var rFileElm = document.getElementById('file-2');
+	rFileElm.onchange = function() {
+		var f = rFileElm.files[0];
+		var r = new FileReader();
+		r.onload = function() {
+			convertURL(r.result);
+		}
+		r.readAsText(f);
+	}
 
 	function convert(rs) {
 		let n = JSON.parse(rs);
@@ -79,16 +89,34 @@ document.addEventListener("DOMContentLoaded", function() {
 		}
 		download('headereditor.json', JSON.stringify({"request": r,"sendHeader": [],"receiveHeader": []}));
 	};
+	function convertURL(rs) {
+		let n = JSON.parse(rs);
+		let r = [];
+		for (let item of n.rules) {
+			r.push(newItem = {
+				"name": item.description,
+				"ruleType": "redirect",
+				"matchType": "regexp",
+				"pattern": item.origin,
+				"exclude": item.exclude,
+				"to": item.target,
+				"isFunction": 0,
+				"enable": item.enable ? 1 : 0,
+				"action": "redirect"
+			});
+		}
+		download('headereditor.json', JSON.stringify({"request": r,"sendHeader": [],"receiveHeader": []}), true);
+	};
 
-	function download(name, content) {
-		var a = document.getElementById('download');
+	function download(name, content, isSecond) {
+		var a = document.getElementById(isSecond ? 'download-2' : 'download');
 		var blob = new Blob([content]);
 		var evt = document.createEvent("MouseEvents");
 		evt.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
 		evt.initEvent("click", false, false);
 		a.download = name;
 		a.href = URL.createObjectURL(blob);
-		document.getElementById('download-label').style.display = "block";
+		document.getElementById(isSecond ? 'download-label-2' : 'download-label').style.display = "block";
 		a.dispatchEvent(evt);
 	};
 });

@@ -15,7 +15,8 @@ body {
 	width: 100%;
 	box-sizing: border-box;
 }
-#download-label {
+#download-label,
+#download-label-2 {
 	display: none;
 }
 .copyright {
