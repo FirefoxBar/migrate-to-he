@@ -120,6 +120,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				"pattern": "",
 				"isFunction": 0,
 				"enable": 1,
+				"to": item.to,
 				"action": "redirect"
 			};
 			if (item.wildcard) {
