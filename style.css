@@ -17,7 +17,8 @@ body {
 }
 #download-label-1,
 #download-label-2,
-#download-label-3 {
+#download-label-3,
+#download-label-4 {
 	display: none;
 }
 .copyright {

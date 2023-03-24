@@ -222,12 +222,9 @@ document.addEventListener("DOMContentLoaded", function() {
 	function download(name, content, elementId) {
 		var a = document.getElementById('download-' + elementId);
 		var blob = new Blob([content]);
-		var evt = document.createEvent("MouseEvents");
-		evt.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		evt.initEvent("click", false, false);
 		a.download = name;
 		a.href = URL.createObjectURL(blob);
 		document.getElementById('download-label-' + elementId).style.display = "block";
-		a.dispatchEvent(evt);
+		a.click();
 	};
 });
