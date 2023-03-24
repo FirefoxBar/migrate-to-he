@@ -220,7 +220,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				// start download
 				const a = document.getElementById('download-' + index);
 				const blob = new Blob([content]);
-				a.download = name;
+				a.download = "header-editor.json";
 				a.href = URL.createObjectURL(blob);
 				document.getElementById('download-label-' + index).style.display = "block";
 				a.click();
