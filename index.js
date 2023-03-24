@@ -29,8 +29,8 @@ document.addEventListener("DOMContentLoaded", function() {
 					"ruleType": "redirect",
 					"matchType": "regexp",
 					"pattern": "",
-					"isFunction": 0,
-					"enable": item.disabled ? 0 : 1,
+					"isFunction": false,
+					"enable": Boolean(item.disabled),
 					"action": "redirect"
 				};
 				if (item.patternType === 'W') {
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function() {
 					newItem.code += "let result = '" + item.redirectUrl + "';\n";
 					newItem.code += "let r = val.match(new RegExp('" + matchReg + "'));\n";
 					newItem.code += "for (let i = 1; i < r.length; i++) {\n";
-					newItem.code += "\tresult = result.replace(new RegExp('\\\\$' + i, 'g'), " + functionName + "(r[i]));\n";
+					newItem.code += "  result = result.replace(new RegExp('\\\\$' + i, 'g'), " + functionName + "(r[i]));\n";
 					newItem.code += "}\n";
 					newItem.code += 'return result;';
 				}
@@ -80,8 +80,8 @@ document.addEventListener("DOMContentLoaded", function() {
 					"pattern": item.origin,
 					"exclude": item.exclude,
 					"to": item.target,
-					"isFunction": 0,
-					"enable": item.enable ? 1 : 0,
+					"isFunction": false,
+					"enable": Boolean(item.enable),
 					"action": "redirect"
 				});
 			}
@@ -106,8 +106,8 @@ document.addEventListener("DOMContentLoaded", function() {
 					"ruleType": "redirect",
 					"matchType": "",
 					"pattern": "",
-					"isFunction": 0,
-					"enable": 1,
+					"isFunction": false,
+					"enable": true,
 					"to": item.to,
 					"action": "redirect"
 				};
@@ -144,8 +144,8 @@ document.addEventListener("DOMContentLoaded", function() {
 					"ruleType": "redirect",
 					"matchType": "",
 					"pattern": "",
-					"isFunction": 0,
-					"enable": 1,
+					"isFunction": false,
+					"enable": true,
 					"group": title,
 				};
 				if (profile.urlFilters) {
@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", function() {
 							...basicRule,
 							name: title + '-' + header.name,
 							ruleType: "modifySendHeader",
-							enabled: header.enabled ? 1 : 0,
+							enable: Boolean(header.enabled),
 							action: {
 								name: header.name,
 								value: header.value,
@@ -181,7 +181,7 @@ document.addEventListener("DOMContentLoaded", function() {
 							...basicRule,
 							name: title + '-' + header.name,
 							ruleType: "modifyReceiveHeader",
-							enabled: header.enabled ? 1 : 0,
+							enable: Boolean(header.enabled),
 							action: {
 								name: header.name,
 								value: header.value,
@@ -198,7 +198,7 @@ document.addEventListener("DOMContentLoaded", function() {
 							ruleType: "redirect",
 							pattern: item.name,
 							to: item.value,
-							enabled: item.enabled ? 1 : 0,
+							enable: Boolean(item.enabled),
 						});
 					}
 				}
