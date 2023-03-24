@@ -30,6 +30,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	initFile(document.getElementById('file-1'), convert1);
 	initFile(document.getElementById('file-2'), convert2);
 	initFile(document.getElementById('file-3'), convert3);
+	initFile(document.getElementById('file-4'), convert4);
 
 	//Redirector
 	function convert1(rs) {
@@ -139,6 +140,83 @@ document.addEventListener("DOMContentLoaded", function() {
 			r.push(newItem);
 		}
 		download('headereditor.json', JSON.stringify({"request": r,"sendHeader": [],"receiveHeader": []}), 3);
+	}
+	// ModHeader
+	function convert4(rs) {
+		rs = JSON.parse(rs);
+		const result = {
+			request: [],
+			sendHeader: [],
+			receiveHeader: []
+		};
+
+		for (const profile of rs) {
+			const title = profile;
+			const basicRule = {
+				"name": "",
+				"ruleType": "redirect",
+				"matchType": "",
+				"pattern": "",
+				"isFunction": 0,
+				"enable": 1,
+				"group": title,
+			};
+			if (profile.urlFilters) {
+				const item = profile.urlFilters.find(x => x.enable);
+				if (item) {
+					basicRule.matchType = "regexp";
+					basicRule.pattern = item.urlRegex;
+				} else {
+					basicRule.matchType = "all";
+				}
+			} else {
+				basicRule.matchType = "all";
+			}
+			// Send Header
+			if (Array.isArray(profile.headers)) {
+				for (const header of profile.headers) {
+					result.sendHeader.push({
+						...basicRule,
+						name: title + '-' + header.name,
+						ruleType: "modifySendHeader",
+						enabled: header.enabled ? 1 : 0,
+						action: {
+							name: header.name,
+							value: header.value,
+						},
+					});
+				}
+			}
+			// Response Header
+			if (Array.isArray(profile.respHeaders)) {
+				for (const header of profile.respHeaders) {
+					result.receiveHeader.push({
+						...basicRule,
+						name: title + '-' + header.name,
+						ruleType: "modifyReceiveHeader",
+						enabled: header.enabled ? 1 : 0,
+						action: {
+							name: header.name,
+							value: header.value,
+						},
+					});
+				}
+			}
+			// Redirect
+			if (Array.isArray(profile.urlReplacements)) {
+				for (const item of profile.urlReplacements) {
+					result.request.push({
+						...basicRule,
+						name: title + '-' + item.name,
+						ruleType: "redirect",
+						pattern: item.name,
+						to: item.value,
+						enabled: item.enabled ? 1 : 0,
+					});
+				}
+			}
+		}
+		download('headereditor.json', JSON.stringify(result), 4);
 	}
 
 	function download(name, content, elementId) {
