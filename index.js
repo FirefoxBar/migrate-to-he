@@ -209,7 +209,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	function initConvert(index) {
 		const trigger = document.getElementById('file-' + index);
-		const 
 		if (!trigger) {
 			return;
 		}
