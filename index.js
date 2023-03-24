@@ -216,7 +216,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			var f = this.files[0];
 			var r = new FileReader();
 			r.onload = function() {
-				const content = handler[index](r.result);
+				const content = handler[index - 1](r.result);
 				// start download
 				const a = document.getElementById('download-' + index);
 				const blob = new Blob([content]);
