@@ -138,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			};
 
 			for (const profile of rs) {
-				const title = profile;
+				const title = profile.title;
 				const basicRule = {
 					"name": "",
 					"ruleType": "redirect",
